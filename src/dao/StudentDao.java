@@ -11,27 +11,35 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class StudentDao {
+
+
+
+    private Connection conn;
+    private  PreparedStatement stateQuery;
+
+    public StudentDao () {
+        conn= DBHelper.getConnection();
+        try {
+            stateQuery = conn.prepareStatement("select * from student where state=?");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public ObservableList<Student> findStudentsByState (String state) {
         ObservableList<Student> students = FXCollections.observableArrayList();
-        // 获得数据库连接
-        Connection conn= DBHelper.getConnection();
 
         try {
             // 预编译sql语句
             String sql="select * from student where state=?";
-            PreparedStatement ptmt = conn.prepareStatement(sql);
-            ptmt.setString(1, state);
-            ResultSet rs = ptmt.executeQuery();
+            stateQuery.setString(1, state);
+            ResultSet rs = stateQuery.executeQuery();
             while (rs.next()) {
                 Student student = new Student();
-                student.setId(rs.getString("id"));
-                student.setClassName(rs.getString("class"));
+                student.setUserId(rs.getString("userId"));
                 student.setInstructor(rs.getString("instructor"));
-                student.setMajor(rs.getString("major"));
-                student.setName(rs.getString("name"));
-                student.setSex(rs.getString("sex"));
+                student.setUserName(rs.getString("name"));
                 student.setState(rs.getString("state"));
-                student.setTelephone(rs.getString("telephone"));
                 students.add(student);
             }
         } catch (SQLException e) {

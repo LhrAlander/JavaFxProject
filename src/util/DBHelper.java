@@ -6,7 +6,7 @@ import java.sql.SQLException;
 
 public class DBHelper {
     //数据库的URL
-    private static final String URL="jdbc:mysql://127.0.0.1:3306/student?useUnicode=true&characterEncoding=utf8";
+    private static final String URL="jdbc:mysql://127.0.0.1:3306/pair-cms?useUnicode=true&characterEncoding=utf8";
     //数据库连接的用户名
     private static final String USER="root";
     //密码

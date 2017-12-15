@@ -2,41 +2,27 @@ package model;
 
 import javafx.beans.property.SimpleStringProperty;
 
-public class Student {
+/**
+ * Created by Alander on 2017/12/14.
+ */
+public class User {
     private SimpleStringProperty userId;
     private SimpleStringProperty userName;
     private SimpleStringProperty userSex;
     private SimpleStringProperty telephone;
     private SimpleStringProperty userIdentity;
     private SimpleStringProperty userPassword;
-    private SimpleStringProperty instructor;
-    private SimpleStringProperty state;
 
-
-
-    public Student(String userId, String userName, String userSex, String telephone, String userIdentity, String userPassword, String instructor, String state) {
+    public User(String userId, String userName, String userSex, String userPhone, String telephone, String userIdentity, String userPassword) {
         this.userId = new SimpleStringProperty(userId);
         this.userName = new SimpleStringProperty(userName);
         this.userSex = new SimpleStringProperty(userSex);
         this.telephone = new SimpleStringProperty(telephone);
         this.userIdentity = new SimpleStringProperty(userIdentity);
         this.userPassword = new SimpleStringProperty(userPassword);
-        this.instructor = new SimpleStringProperty(instructor);
-        this.state = new SimpleStringProperty(state);
     }
 
-    public Student(User user, String instructor, String state) {
-        this(user.getUserId(), user.getUserName(), user.getUserSex(), user.getTelephone(), user.getUserIdentity(), user.getUserPassword(), instructor, state);
-    }
-
-    public Student(String userId, String userName, String instructor, String state) {
-        this.userId = new SimpleStringProperty(userId);
-        this.userName = new SimpleStringProperty(userName);
-        this.instructor = new SimpleStringProperty(instructor);
-        this.state = new SimpleStringProperty(state);
-    }
-
-    public Student() {
+    public User() {
     }
 
     public String getUserId() {
@@ -50,7 +36,6 @@ public class Student {
     public String getUserName() {
         return userName.get();
     }
-
 
     public void setUserName(String userName) {
         this.userName = new SimpleStringProperty(userName);
@@ -68,7 +53,6 @@ public class Student {
     public String getTelephone() {
         return telephone.get();
     }
-
 
     public void setTelephone(String telephone) {
         this.telephone = new SimpleStringProperty(telephone);
@@ -92,21 +76,8 @@ public class Student {
         this.userPassword = new SimpleStringProperty(userPassword);
     }
 
-    public String getInstructor() {
-        return instructor.get();
-    }
-
-
-    public void setInstructor(String instructor) {
-        this.instructor = new SimpleStringProperty(instructor);
-    }
-
-    public String getState() {
-        return state.get();
-    }
-
-
-    public void setState(String state) {
-        this.state = new SimpleStringProperty(state);
+    @Override
+    public String toString() {
+        return "userId: " + getUserId() + ", userName: " + getUserName() + ", userIdentity: " + getUserIdentity() ;
     }
 }

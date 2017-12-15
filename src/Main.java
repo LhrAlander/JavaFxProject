@@ -5,7 +5,7 @@ import scenes.LoginScene;
 public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
-        LoginScene root = new LoginScene();
+        LoginScene root = new LoginScene(primaryStage);
         primaryStage.setScene(root.getScene());
         primaryStage.show();
     }

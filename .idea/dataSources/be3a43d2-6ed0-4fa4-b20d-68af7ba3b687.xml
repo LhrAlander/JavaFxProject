@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataSource name="pair-cms@localhost">
+  <database-model serializer="dbm" rdbms="MYSQL" format-version="4.2">
+    <root id="1"/>
+    <schema id="2" parent="1" name="pair-cms">
+      <Current>1</Current>
+      <Visible>1</Visible>
+    </schema>
+    <schema id="3" parent="1" name="db_workstudy"/>
+    <schema id="4" parent="1" name="information_schema"/>
+    <schema id="5" parent="1" name="lib_db"/>
+    <schema id="6" parent="1" name="mysql"/>
+    <schema id="7" parent="1" name="my_blog"/>
+    <schema id="8" parent="1" name="performance_schema"/>
+    <schema id="9" parent="1" name="student"/>
+    <schema id="10" parent="1" name="sys"/>
+    <schema id="11" parent="1" name="test"/>
+    <schema id="12" parent="1" name="todolist"/>
+    <table id="13" parent="2" name="student"/>
+    <table id="14" parent="2" name="teacher"/>
+    <table id="15" parent="2" name="user"/>
+    <column id="16" parent="13" name="userId">
+      <Position>1</Position>
+      <DataType>varchar(180)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="17" parent="13" name="instructor">
+      <Position>2</Position>
+      <DataType>varchar(180)|0</DataType>
+    </column>
+    <column id="18" parent="13" name="state">
+      <Position>3</Position>
+      <DataType>varchar(108)|0</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>&apos;未选&apos;</DefaultExpression>
+    </column>
+    <column id="19" parent="13" name="name">
+      <Position>4</Position>
+      <DataType>varchar(180)|0</DataType>
+    </column>
+    <index id="20" parent="13" name="userId_UNIQUE">
+      <ColNames>userId</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="21" parent="13" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>userId</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <key id="22" parent="13" name="userId_UNIQUE">
+      <ColNames>userId</ColNames>
+      <UnderlyingIndexName>userId_UNIQUE</UnderlyingIndexName>
+    </key>
+    <column id="23" parent="14" name="userId">
+      <Position>1</Position>
+      <DataType>varchar(180)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="24" parent="14" name="teacherTitle">
+      <Position>2</Position>
+      <DataType>varchar(135)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="25" parent="14" name="teacherMajor">
+      <Position>3</Position>
+      <DataType>varchar(135)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="26" parent="14" name="studentNumber">
+      <Position>4</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>&apos;5&apos;</DefaultExpression>
+    </column>
+    <column id="27" parent="14" name="name">
+      <Position>5</Position>
+      <DataType>varchar(180)|0</DataType>
+    </column>
+    <index id="28" parent="14" name="userId_UNIQUE">
+      <ColNames>userId</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="29" parent="14" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>userId</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <key id="30" parent="14" name="userId_UNIQUE">
+      <ColNames>userId</ColNames>
+      <UnderlyingIndexName>userId_UNIQUE</UnderlyingIndexName>
+    </key>
+    <column id="31" parent="15" name="userId">
+      <Position>1</Position>
+      <DataType>varchar(180)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="32" parent="15" name="userName">
+      <Position>2</Position>
+      <DataType>varchar(180)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="33" parent="15" name="userSex">
+      <Position>3</Position>
+      <DataType>varchar(90)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="34" parent="15" name="telephone">
+      <Position>4</Position>
+      <DataType>varchar(135)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="35" parent="15" name="userPassword">
+      <Position>5</Position>
+      <DataType>varchar(180)|0</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>&apos;123456&apos;</DefaultExpression>
+    </column>
+    <column id="36" parent="15" name="userIdentity">
+      <Position>6</Position>
+      <DataType>varchar(45)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <index id="37" parent="15" name="telephone_UNIQUE">
+      <ColNames>telephone</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <index id="38" parent="15" name="userId_UNIQUE">
+      <ColNames>userId</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="39" parent="15" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>userId</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <key id="40" parent="15" name="userId_UNIQUE">
+      <ColNames>userId</ColNames>
+      <UnderlyingIndexName>userId_UNIQUE</UnderlyingIndexName>
+    </key>
+    <key id="41" parent="15" name="telephone_UNIQUE">
+      <ColNames>telephone</ColNames>
+      <UnderlyingIndexName>telephone_UNIQUE</UnderlyingIndexName>
+    </key>
+  </database-model>
+</dataSource>
