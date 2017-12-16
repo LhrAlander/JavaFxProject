@@ -27,6 +27,7 @@ public class UserDao {
     private PreparedStatement stNameSql;
     private PreparedStatement stIdNameSql;
     private PreparedStatement userEditSql;
+    private PreparedStatement resetPWDSql;
 
 
     public UserDao() {
@@ -34,16 +35,18 @@ public class UserDao {
         conn= DBHelper.getConnection();
         try {
             loginSql = conn.prepareStatement(sql);
-            stIdSql = conn.prepareStatement("select * from user where userIdentity = '学生' and userId LIKE ?");
-            stNameSql = conn.prepareStatement("select * from user where userIdentity = '学生' and userName LIKE ?");
-            stIdNameSql = conn.prepareStatement("select * from user where userIdentity = '学生' and userId like ? AND userName LIKE ?");
+            stIdSql = conn.prepareStatement("select * from user where userIdentity = ? and userId LIKE ?");
+            stNameSql = conn.prepareStatement("select * from user where userIdentity = ? and userName LIKE ?");
+            stIdNameSql = conn.prepareStatement("select * from user where userIdentity = ? and userId like ? AND userName LIKE ?");
             userEditSql = conn.prepareStatement("update user set userName = ?, telephone = ? where userId = ?");
+            resetPWDSql = conn.prepareStatement("update user set userPassword = '1234567' where userId = ?");
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
+    // 登录功能
     public HashMap<String, Object> login(String userId, String pwd) {
         HashMap<String, Object> returnData = new HashMap<>();
         User user = null;
@@ -74,6 +77,7 @@ public class UserDao {
 
     }
 
+    // 获取所有的学生用户信息
     public ObservableList<User> getAllStudents () {
         ObservableList<User> students = FXCollections.observableArrayList();
         try {
@@ -87,29 +91,50 @@ public class UserDao {
         return students;
     }
 
-    public ObservableList<User> getStudentsByInfo (String userId, String userName) {
+    // 获取所有的导师用户信息
+    public ObservableList<User> getAllTeachers () {
+        ObservableList<User> teachers = FXCollections.observableArrayList();
+        try {
+            ResultSet rs = conn.createStatement().executeQuery("select * from user where userIdentity = '教师'");
+            while (rs.next()) {
+                teachers.add(getUserFromRS(rs));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return teachers;
+    }
+
+    // 根据用户id和用户名搜索用户
+    public ObservableList<User> getStudentsByInfo (String infoType, String userId, String userName) {
         ResultSet rs = null;
         ObservableList<User> students = FXCollections.observableArrayList();
+        System.out.println(infoType);
         try {
             if (userId != null && !userId.equals("")) {
                 // 模糊查询
                 if (userName == null || userName.equals("")) {
-                    stIdSql.setString(1, "%" + userId + "%");
+                    stIdSql.setString(1, infoType);
+                    stIdSql.setString(2, "%" + userId + "%");
                     rs = stIdSql.executeQuery();
                 }
                 else {
-                    stIdNameSql.setString(1, "%" + userId + "%");
-                    stIdNameSql.setString(2, "%" + userName + "%");
+                    stIdNameSql.setString(1, infoType);
+                    stIdNameSql.setString(2, "%" + userId + "%");
+                    stIdNameSql.setString(3, "%" + userName + "%");
                     rs = stIdNameSql.executeQuery();
                 }
             }
             else {
                 if (userName != null && !userName.equals("")) {
-                    stNameSql.setString(1, "%" + userName + "%");
+                    stNameSql.setString(1, infoType);
+                    stNameSql.setString(2, "%" + userName + "%");
                     rs = stNameSql.executeQuery();
                 }
                 else {
-                    return getAllStudents();
+                    if (infoType.equals("学生"))
+                        return getAllStudents();
+                    return getAllTeachers();
                 }
             }
             while (rs != null && rs.next()) {
@@ -121,12 +146,25 @@ public class UserDao {
         return students;
     }
 
+    // 修改用户基本信息
     public Boolean changeUserInfo (String userId, String userName, String telephone) {
         try {
             userEditSql.setString(1, userName);
             userEditSql.setString(2, telephone);
             userEditSql.setString(3, userId);
             userEditSql.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    // 重置用户密码
+    public Boolean resetUserPWD (String userId) {
+        try {
+            resetPWDSql.setString(1, userId);
+            resetPWDSql.executeUpdate();
             return true;
         } catch (SQLException e) {
             e.printStackTrace();

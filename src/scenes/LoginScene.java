@@ -82,8 +82,8 @@ public class LoginScene {
     private void handleLogin () {
 //        String userId = account.getText();
 //        String pwd = password.getText();
-        String userId = "00000001";
-        String pwd = "hairui321";
+        String userId = "2015210405043";
+        String pwd = "123456";
         if (pwd != null && userId != null) {
             HashMap<String, Object> res = userDao.login(userId, pwd);
             String code = (String)res.get("code");
@@ -109,6 +109,10 @@ public class LoginScene {
             case "管理员":
                 AdminScene adminScene = new AdminScene(this.primaryStage);
                 primaryStage.setScene(adminScene.getScene());
+                break;
+            case "学生":
+                StudentScene studentScene = new StudentScene(this.primaryStage, user);
+                primaryStage.setScene(studentScene.getScene());
                 break;
         }
     }

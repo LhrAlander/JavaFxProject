@@ -6,7 +6,6 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.stage.Stage;
 import model.User;
 
 /**
@@ -25,17 +24,12 @@ public class StudentBaseTable {
         initTable();
     }
 
-    public StudentBaseTable(ObservableList<User> users) {
-        initTable();  // 初始化学生表格
-        setItems(users);
-    }
-
     public StudentBaseTable () {
         initTable();
     }
 
     private void initTable() {
-        TableColumn idCol = new TableColumn("学号");
+        TableColumn idCol = new TableColumn("学号/工号");
         idCol.setMinWidth(120);
         idCol.setCellValueFactory(new PropertyValueFactory<User, String>("userId"));
 

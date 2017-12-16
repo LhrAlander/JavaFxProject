@@ -38,7 +38,7 @@ public class AdminStDetailPane {
         // 设置信息表格
         studentTable = new StudentTable();
         root.getChildren().addAll(head, studentTable.getTableView());
-
+        studentTable.setItems(studentDao.findStudentsByState("未选"));
     }
 
     private void initBtn () {

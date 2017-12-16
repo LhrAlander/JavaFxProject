@@ -50,9 +50,13 @@ public class StudentTable {
     }
 
     public void setItems (ObservableList<Student> students) {
-        System.out.println(students.size()+"");
-        this.students.clear();
-        this.students.addAll(students);
-        table.setItems(this.students);
+        if (students != null) {
+            this.students.clear();
+            this.students.addAll(students);
+            table.setItems(this.students);
+        }
+        else {
+            table.setItems(null);
+        }
     }
 }

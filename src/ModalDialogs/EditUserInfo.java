@@ -96,5 +96,15 @@ public class EditUserInfo {
             }
         });
 
+        // 注册点击“取消”按钮事件
+        cancelBtn.setOnAction(event -> {
+            stage.hide();
+        });
+
+        // 注册重置密码按钮事件
+        pwdBtn.setOnAction(event -> {
+            new ResetPWD(stg, listener, idTF.getText());
+        });
+
     }
 }
