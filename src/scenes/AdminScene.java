@@ -57,6 +57,7 @@ public class AdminScene {
         stBaseInfoPane = new AdminStBaseInfoPane(this.primaryStage);
         root.getChildren().add(stBaseInfoPane.getRoot());
         scene = new Scene(root);
+        primaryStage.setTitle("你好，管理员");
     }
 
     private void initMenu () {

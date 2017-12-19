@@ -74,6 +74,7 @@ public class LoginScene {
 
         scene = new Scene(grid);
         scene.getStylesheets().add("style/login.css");
+        primaryStage.setTitle("欢迎！");
     }
 
 

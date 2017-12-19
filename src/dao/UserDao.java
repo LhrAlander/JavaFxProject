@@ -27,6 +27,8 @@ public class UserDao {
     private PreparedStatement stNameSql;
     private PreparedStatement stIdNameSql;
     private PreparedStatement userEditSql;
+    private PreparedStatement teacherEditSql;
+    private PreparedStatement studentEditSql;
     private PreparedStatement resetPWDSql;
     private PreparedStatement studentByTeacherSql;
     private PreparedStatement studentByTeacherAndStateSql;
@@ -41,6 +43,8 @@ public class UserDao {
             stNameSql = conn.prepareStatement("select * from user where userIdentity = ? and userName LIKE ?");
             stIdNameSql = conn.prepareStatement("select * from user where userIdentity = ? and userId like ? AND userName LIKE ?");
             userEditSql = conn.prepareStatement("update user set userName = ?, telephone = ? where userId = ?");
+            teacherEditSql = conn.prepareStatement("update teacher set name = ? where userId = ?");
+            studentEditSql = conn.prepareStatement("update student set name = ? where userId = ?");
             resetPWDSql = conn.prepareStatement("update user set userPassword = '1234567' where userId = ?");
             studentByTeacherSql = conn.prepareStatement(" select distinct user.userId, user.userName, userSex, user.telephone, student.state from user, student, teacher where user.userId = student.userId and student.instructor = ?;");
             studentByTeacherAndStateSql = conn.prepareStatement(" select distinct user.userId, user.userName, userSex, user.telephone, student.state from user, student, teacher where user.userId = student.userId and student.instructor = ? and student.state = ?;");
@@ -155,7 +159,13 @@ public class UserDao {
             userEditSql.setString(1, userName);
             userEditSql.setString(2, telephone);
             userEditSql.setString(3, userId);
+            teacherEditSql.setString(1, userName);
+            teacherEditSql.setString(2, userId);
+            studentEditSql.setString(1, userName);
+            studentEditSql.setString(2, userId);
             userEditSql.executeUpdate();
+            teacherEditSql.executeUpdate();
+            studentEditSql.executeUpdate();
             return true;
         } catch (SQLException e) {
             e.printStackTrace();

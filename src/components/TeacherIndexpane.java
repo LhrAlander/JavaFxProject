@@ -53,9 +53,9 @@ public class TeacherIndexpane {
         head = new FlowPane();
         head.setHgap(15);
         head.setPadding(new Insets(10, 0, 5, 15));
-        ObservableList<String> studentStatus = FXCollections.observableArrayList("未选", "待定", "选定");
+        ObservableList<String> studentStatus = FXCollections.observableArrayList( "待定", "选定");
         stStatusBox = new ComboBox(studentStatus);
-        stStatusBox.setValue("未选");
+        stStatusBox.setValue("待定");
         // 初始化查询按钮
         initBtn();
         head.getChildren().addAll(new Label("学生状态"), stStatusBox, queryBtn);
