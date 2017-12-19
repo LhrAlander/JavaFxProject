@@ -16,7 +16,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import lecture15.ModalDialog;
 import model.User;
 
 import java.util.HashMap;
@@ -80,10 +79,12 @@ public class LoginScene {
 
     // 登录
     private void handleLogin () {
-//        String userId = account.getText();
-//        String pwd = password.getText();
-        String userId = "2015210405043";
-        String pwd = "123456";
+        String userId = account.getText();
+        String pwd = password.getText();
+//        String userId = "1111000";
+//        String pwd = "1234567";
+//        String userId = "2015210405043";
+//        String pwd = "123456";
         if (pwd != null && userId != null) {
             HashMap<String, Object> res = userDao.login(userId, pwd);
             String code = (String)res.get("code");
@@ -113,6 +114,10 @@ public class LoginScene {
             case "学生":
                 StudentScene studentScene = new StudentScene(this.primaryStage, user);
                 primaryStage.setScene(studentScene.getScene());
+                break;
+            default:
+                TeacherScene teacherScene = new TeacherScene(this.primaryStage, user);
+                primaryStage.setScene(teacherScene.getScene());
                 break;
         }
     }

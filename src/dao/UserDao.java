@@ -28,6 +28,8 @@ public class UserDao {
     private PreparedStatement stIdNameSql;
     private PreparedStatement userEditSql;
     private PreparedStatement resetPWDSql;
+    private PreparedStatement studentByTeacherSql;
+    private PreparedStatement studentByTeacherAndStateSql;
 
 
     public UserDao() {
@@ -40,7 +42,8 @@ public class UserDao {
             stIdNameSql = conn.prepareStatement("select * from user where userIdentity = ? and userId like ? AND userName LIKE ?");
             userEditSql = conn.prepareStatement("update user set userName = ?, telephone = ? where userId = ?");
             resetPWDSql = conn.prepareStatement("update user set userPassword = '1234567' where userId = ?");
-
+            studentByTeacherSql = conn.prepareStatement(" select distinct user.userId, user.userName, userSex, user.telephone, student.state from user, student, teacher where user.userId = student.userId and student.instructor = ?;");
+            studentByTeacherAndStateSql = conn.prepareStatement(" select distinct user.userId, user.userName, userSex, user.telephone, student.state from user, student, teacher where user.userId = student.userId and student.instructor = ? and student.state = ?;");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -186,6 +189,49 @@ public class UserDao {
             e.printStackTrace();
         }
         return user;
+    }
+
+    public ObservableList<User> getStudentByInstructor (String teacherId) {
+        ObservableList<User> students = FXCollections.observableArrayList();
+        try {
+            studentByTeacherSql.setString(1, teacherId);
+            ResultSet rs = studentByTeacherSql.executeQuery();
+            while (rs.next()) {
+                User user = new User();
+                user.setTelephone(rs.getString("telephone"));
+                user.setUserSex(rs.getString("userSex"));
+                user.setUserId(rs.getString("userId"));
+                user.setUserName(rs.getString("userName"));
+                user.setState(rs.getString("state"));
+                user.setUserIdentity("学生");
+                students.add(user);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return students;
+    }
+
+    public ObservableList<User> getStudentByInstructorAndState (String teacherId, String state) {
+        ObservableList<User> students = FXCollections.observableArrayList();
+        try {
+            studentByTeacherAndStateSql.setString(1, teacherId);
+            studentByTeacherAndStateSql.setString(2, state);
+            ResultSet rs = studentByTeacherAndStateSql.executeQuery();
+            while (rs.next()) {
+                User user = new User();
+                user.setTelephone(rs.getString("telephone"));
+                user.setUserSex(rs.getString("userSex"));
+                user.setUserId(rs.getString("userId"));
+                user.setUserName(rs.getString("userName"));
+                user.setState(rs.getString("state"));
+                user.setUserIdentity("学生");
+                students.add(user);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return students;
     }
 
 }

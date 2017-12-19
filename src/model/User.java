@@ -12,6 +12,7 @@ public class User {
     private SimpleStringProperty telephone;
     private SimpleStringProperty userIdentity;
     private SimpleStringProperty userPassword;
+    private SimpleStringProperty state;
 
     public User(String userId, String userName, String userSex, String userPhone, String telephone, String userIdentity, String userPassword) {
         this.userId = new SimpleStringProperty(userId);
@@ -74,6 +75,15 @@ public class User {
 
     public void setUserPassword(String userPassword) {
         this.userPassword = new SimpleStringProperty(userPassword);
+    }
+
+    public String getState() {
+        return state.get();
+    }
+
+
+    public void setState(String state) {
+        this.state = new SimpleStringProperty(state);
     }
 
     @Override

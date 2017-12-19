@@ -23,6 +23,9 @@ public class StudentDao {
     private PreparedStatement changeInstructorUpdate;
     private PreparedStatement cancelInstructorUpdate;
     private PreparedStatement canSelectSql;
+    private PreparedStatement confirmStSql;
+    private PreparedStatement delStStSql;
+    private PreparedStatement stForTeacherByState;
 
     public StudentDao () {
         conn= DBHelper.getConnection();
@@ -32,6 +35,9 @@ public class StudentDao {
             changeInstructorUpdate = conn.prepareStatement("UPDATE student set instructor = ?, state = ? where userId = ?");
             cancelInstructorUpdate = conn.prepareStatement("UPDATE student set instructor = 'null', state = '未选' where userId = ?");
             canSelectSql = conn.prepareStatement("select * from student where userId = ?;");
+            confirmStSql = conn.prepareStatement("update student set state = '选定', instructor = ? where userId = ?;");
+            delStStSql = conn.prepareStatement("update student set state = '未选', instructor = 'null' where userId = ?;");
+            stForTeacherByState = conn.prepareStatement(";");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -154,6 +160,29 @@ public class StudentDao {
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
+        }
+    }
+
+    public Boolean teacherConfirmSt (User student, User teacher) {
+        try {
+            confirmStSql.setString(1, teacher.getUserId());
+            confirmStSql.setString(2, student.getUserId());
+            confirmStSql.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public Boolean teacherDelSt (User student) {
+        try {
+            delStStSql.setString(1, student.getUserId());
+            delStStSql.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
         }
     }
 }
