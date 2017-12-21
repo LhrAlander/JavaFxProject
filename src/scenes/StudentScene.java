@@ -1,9 +1,13 @@
 package scenes;
 
+import Interface.EditUserListener;
+import ModalDialogs.ChangePWD;
+import ModalDialogs.TipModal;
 import components.StudentIndexPane;
 import components.StudentTeacherDetailPane;
 import dao.StudentDao;
 import dao.TeacherDao;
+import dao.UserDao;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
@@ -23,6 +27,7 @@ public class StudentScene {
     private MenuBar menuBar;
     private Menu sysMenu;
     private MenuItem exit;
+    private MenuItem changePWD;
     private Menu checkMenu;
     private RadioMenuItem indexMenuItem;
     private RadioMenuItem myInfoItem;
@@ -31,6 +36,7 @@ public class StudentScene {
 
     private StudentDao studentDao;
     private TeacherDao teacherDao;
+    private UserDao userDao;
 
     private static final String INDEX_PANE = "index";
     private static final String MY_INFO = "myInfo";
@@ -42,6 +48,7 @@ public class StudentScene {
         this.currentUser = user;
         this.studentDao = new StudentDao();
         this.teacherDao = new TeacherDao();
+        this.userDao = new UserDao();
         root = new VBox();
         root.setSpacing(10);
 
@@ -59,10 +66,14 @@ public class StudentScene {
     private void initMenu () {
         sysMenu = new Menu("系统");
         exit = new MenuItem("登出");
-        sysMenu.getItems().add(exit);
+        changePWD = new MenuItem("修改密码");
+        sysMenu.getItems().addAll(changePWD, exit);
         // 初始化
         exit.setOnAction(event -> {
             this.primaryStage.setScene((new LoginScene(this.primaryStage)).getScene());
+        });
+        changePWD.setOnAction(event -> {
+            new ChangePWD(primaryStage, currentUser, new ChangePWDListener());
         });
 
         checkMenu = new Menu("查看");
@@ -93,5 +104,24 @@ public class StudentScene {
 
     public Scene getScene() {
         return scene;
+    }
+
+    private class ChangePWDListener implements EditUserListener {
+
+        @Override
+        public void resetPassword(String id) {
+
+        }
+
+        @Override
+        public void confirmEdit(String prePwd, String secondPwd, String newPwd) {
+            System.out.println(prePwd + secondPwd + newPwd);
+            if (userDao.changeUserPWD(currentUser, prePwd,  newPwd)) {
+                new TipModal(primaryStage, "修改密码成功！");
+            }
+            else {
+                new TipModal(primaryStage, "原密码输入错误请稍后再试！");
+            }
+        }
     }
 }

@@ -10,6 +10,7 @@ public class Student {
     private SimpleStringProperty userIdentity;
     private SimpleStringProperty userPassword;
     private SimpleStringProperty instructor;
+    private SimpleStringProperty instructorName;
     private SimpleStringProperty state;
 
 
@@ -54,6 +55,18 @@ public class Student {
 
     public void setUserName(String userName) {
         this.userName = new SimpleStringProperty(userName);
+    }
+
+    public String getInstructorName() {
+        if (instructorName == null) {
+            return "";
+        }
+        return instructorName.get();
+    }
+
+
+    public void setInstructorName(String userName) {
+        this.instructorName = new SimpleStringProperty(userName);
     }
 
     public String getUserSex() {

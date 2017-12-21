@@ -13,7 +13,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import model.Teacher;
 import model.User;
 import scenes.TeacherScene;
 
@@ -128,7 +127,6 @@ public class TeacherCheckStudentDetailPane {
         @Override
         public void confirmEdit(String id, String name, String phone) {
             if (studentDao.teacherConfirmSt(student, teacher)) {
-                System.out.println("yes");
                 new TipModal(primaryStage, "恭喜！" + student.getUserName() + " 已经成为您的学生！");
                 TeacherScene teacherScene = new TeacherScene(primaryStage, teacher);
                 primaryStage.setScene(teacherScene.getScene());
@@ -149,7 +147,6 @@ public class TeacherCheckStudentDetailPane {
         @Override
         public void confirmEdit(String id, String name, String phone) {
             if (studentDao.teacherDelSt(student)) {
-                System.out.println("确定淘汰");
                 new TipModal(primaryStage, "已淘汰学生 " + student.getUserName());
                 TeacherScene teacherScene = new TeacherScene(primaryStage, teacher);
                 primaryStage.setScene(teacherScene.getScene());

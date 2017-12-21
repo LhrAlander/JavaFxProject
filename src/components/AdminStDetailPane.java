@@ -3,6 +3,7 @@ package components;
 import dao.StudentDao;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -28,6 +29,7 @@ public class AdminStDetailPane {
         // 绘制查询
         head = new FlowPane();
         head.setHgap(15);
+        head.setPadding(new Insets(10));
         ObservableList<String> studentStatus = FXCollections.observableArrayList("未选", "待定", "选定");
         stStatusBox = new ComboBox(studentStatus);
         stStatusBox.setValue("未选");

@@ -37,12 +37,16 @@ public class StudentTable {
         stateCol.setMinWidth(100);
         stateCol.setCellValueFactory(new PropertyValueFactory<Student, String>("state"));
 
-        TableColumn instructorCol = new TableColumn("导师");
+        TableColumn instructorCol = new TableColumn("导师工号");
         instructorCol.setMinWidth(100);
         instructorCol.setCellValueFactory(new PropertyValueFactory<Student, String>("instructor"));
 
+        TableColumn instructorNameCol = new TableColumn("导师姓名");
+        instructorNameCol.setMinWidth(100);
+        instructorNameCol.setCellValueFactory(new PropertyValueFactory<Student, String>("instructorName"));
+
         table.setItems(null);
-        table.getColumns().addAll(idCol, nameCol, stateCol, instructorCol);
+        table.getColumns().addAll(idCol, nameCol, stateCol, instructorCol, instructorNameCol);
     }
 
     public TableView<Student> getTableView() {

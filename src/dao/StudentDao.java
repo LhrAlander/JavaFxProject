@@ -1,6 +1,5 @@
 package dao;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.Student;
@@ -26,9 +25,11 @@ public class StudentDao {
     private PreparedStatement confirmStSql;
     private PreparedStatement delStStSql;
     private PreparedStatement stForTeacherByState;
+    private TeacherDao teacherDao;
 
     public StudentDao () {
         conn= DBHelper.getConnection();
+        this.teacherDao = new TeacherDao();
         try {
             stateQuery = conn.prepareStatement("select * from student where state=?");
             teachersql = conn.prepareStatement("select * from student where instructor = ?");
@@ -54,7 +55,21 @@ public class StudentDao {
                 student.setUserId(rs.getString("userId"));
                 student.setInstructor(rs.getString("instructor"));
                 student.setUserName(rs.getString("name"));
+
+
                 student.setState(rs.getString("state"));
+                if (!student.getState().equals("未选")) {
+                    Teacher teacher = teacherDao.getTeachersByInfo(student.getInstructor(), null).get(0);
+                    if (teacher != null) {
+                        student.setInstructorName(teacher.getName());
+                    }
+                    else {
+                        student.setInstructorName("");
+                    }
+                }
+                else {
+                    student.setInstructorName("");
+                }
                 students.add(student);
             }
         } catch (SQLException e) {
@@ -69,7 +84,10 @@ public class StudentDao {
             teachersql.setString(1, instructor);
             ResultSet rs = teachersql.executeQuery();
             while (rs.next()) {
-                students.add(getStudentByRs(rs, name));
+                Student student = getStudentByRs(rs, name);
+                student.setInstructor(instructor);
+                students.add(student);
+
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -81,7 +99,7 @@ public class StudentDao {
         Student student = new Student();
         try {
             student.setUserId(rs.getString("userId"));
-            student.setInstructor(name);
+            student.setInstructorName(name);
             student.setState(rs.getString("state"));
             student.setUserName(rs.getString("name"));
             return student;

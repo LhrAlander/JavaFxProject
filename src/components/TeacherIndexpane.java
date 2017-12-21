@@ -1,21 +1,17 @@
 package components;
 
 import Interface.AdminTableClickListener;
-import ModalDialogs.TipModal;
 import dao.StudentDao;
 import dao.TeacherDao;
 import dao.UserDao;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import model.User;
@@ -53,9 +49,9 @@ public class TeacherIndexpane {
         head = new FlowPane();
         head.setHgap(15);
         head.setPadding(new Insets(10, 0, 5, 15));
-        ObservableList<String> studentStatus = FXCollections.observableArrayList( "待定", "选定");
+        ObservableList<String> studentStatus = FXCollections.observableArrayList( "全部", "待定", "选定");
         stStatusBox = new ComboBox(studentStatus);
-        stStatusBox.setValue("待定");
+        stStatusBox.setValue("全部");
         // 初始化查询按钮
         initBtn();
         head.getChildren().addAll(new Label("学生状态"), stStatusBox, queryBtn);
@@ -66,7 +62,7 @@ public class TeacherIndexpane {
 
         table = new TeacherChooseStTable(new tableClickListener());
         root.getChildren().add(table.getTableView());
-                table.setItems(userDao.getStudentByInstructor(user.getUserId()));
+        table.setItems(userDao.getStudentByInstructor(user.getUserId()));
 
     }
 
@@ -74,6 +70,10 @@ public class TeacherIndexpane {
         queryBtn = new Button("查询");
         queryBtn.setOnAction(event -> {
             String state = stStatusBox.getValue().toString();
+            if (state.equals("全部")) {
+                table.setItems(userDao.getStudentByInstructor(user.getUserId()));
+                return;
+            }
             table.setItems(userDao.getStudentByInstructorAndState(user.getUserId(), state));
         });
     }

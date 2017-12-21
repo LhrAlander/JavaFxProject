@@ -6,10 +6,7 @@ import javafx.collections.ObservableList;
 import model.User;
 import util.DBHelper;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.HashMap;
 
 /**
@@ -32,6 +29,7 @@ public class UserDao {
     private PreparedStatement resetPWDSql;
     private PreparedStatement studentByTeacherSql;
     private PreparedStatement studentByTeacherAndStateSql;
+    private PreparedStatement changePWDSql;
 
 
     public UserDao() {
@@ -46,6 +44,7 @@ public class UserDao {
             teacherEditSql = conn.prepareStatement("update teacher set name = ? where userId = ?");
             studentEditSql = conn.prepareStatement("update student set name = ? where userId = ?");
             resetPWDSql = conn.prepareStatement("update user set userPassword = '1234567' where userId = ?");
+            changePWDSql = conn.prepareStatement("update user set userPassword = ? where userId = ?");
             studentByTeacherSql = conn.prepareStatement(" select distinct user.userId, user.userName, userSex, user.telephone, student.state from user, student, teacher where user.userId = student.userId and student.instructor = ?;");
             studentByTeacherAndStateSql = conn.prepareStatement(" select distinct user.userId, user.userName, userSex, user.telephone, student.state from user, student, teacher where user.userId = student.userId and student.instructor = ? and student.state = ?;");
         } catch (SQLException e) {
@@ -116,7 +115,6 @@ public class UserDao {
     public ObservableList<User> getStudentsByInfo (String infoType, String userId, String userName) {
         ResultSet rs = null;
         ObservableList<User> students = FXCollections.observableArrayList();
-        System.out.println(infoType);
         try {
             if (userId != null && !userId.equals("")) {
                 // 模糊查询
@@ -178,6 +176,25 @@ public class UserDao {
         try {
             resetPWDSql.setString(1, userId);
             resetPWDSql.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    // 修改用户密码
+    public Boolean changeUserPWD (User user, String pre, String pwd) {
+        try {
+            ResultSet rs = conn.createStatement().executeQuery("select userPassword from user where userId = " + user.getUserId());
+            rs.next();
+            String password = rs.getString("userPassword");
+            if (!password.equals(pre)) {
+                return false;
+            }
+            changePWDSql.setString(1, pwd);
+            changePWDSql.setString(2, user.getUserId());
+            changePWDSql.executeUpdate();
             return true;
         } catch (SQLException e) {
             e.printStackTrace();

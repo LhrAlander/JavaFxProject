@@ -6,6 +6,7 @@ import ModalDialogs.EditUserInfo;
 import ModalDialogs.TipModal;
 import dao.UserDao;
 import javafx.collections.ObservableList;
+import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -48,6 +49,7 @@ public class AdminStBaseInfoPane {
         head.setHgap(15);
         userId = new TextField();
         userName = new TextField();
+        head.setPadding(new Insets(10));
         // 初始化查询按钮
         initBtn();
         head.getChildren().addAll(new Label("学号/工号"), userId , new Label("姓名"), userName, queryBtn);
@@ -64,7 +66,6 @@ public class AdminStBaseInfoPane {
         users = userDao.getAllStudents();
         studentTable.setItems(users);
         root.getChildren().addAll(head, studentTable.getTableView());
-
     }
 
     public void setMode(String mode) {
@@ -110,15 +111,12 @@ public class AdminStBaseInfoPane {
 
         @Override
         public void resetPassword(String id) {
-            System.out.println("重置密码：" + id);
             if (userDao.resetUserPWD(id)) {
-                System.out.println("重置密码成功");
                 new TipModal(primaryStage, "重置密码成功！");
                 currentUser.setUserPassword("1234567");
                 studentTable.updateOneUser(currentUser);
             }
             else {
-                System.out.println("重置密码失败");
                 new TipModal(primaryStage, "重置密码失败！");
             }
         }

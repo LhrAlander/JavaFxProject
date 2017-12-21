@@ -5,7 +5,6 @@ import ModalDialogs.ChangeStNum;
 import ModalDialogs.TipModal;
 import dao.StudentDao;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -14,7 +13,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import model.Student;
 import model.Teacher;
 import model.User;
 import scenes.StudentScene;
@@ -46,7 +44,6 @@ public class StudentTeacherDetailPane {
         this.teacher = teacher;
         this.studentDao = new StudentDao();
         String instructor = studentDao.getInstructor(student);
-        System.out.println(instructor);
         root = new VBox();
         root.setSpacing(15);
         initHead(instructor);
@@ -188,7 +185,6 @@ public class StudentTeacherDetailPane {
 
         @Override
         public void confirmEdit(String id, String name, String phone) {
-            System.out.println(student.toString());
             if (studentDao.changeInstructor(student.getUserId(), teacher.getUserId(), "待定")) {
                 new TipModal(primaryStage, "成功选择导师，请等待导师确认");
                 StudentTeacherDetailPane detailPane = new StudentTeacherDetailPane(primaryStage, student,  teacher);
@@ -210,8 +206,6 @@ public class StudentTeacherDetailPane {
 
         @Override
         public void confirmEdit(String id, String name, String phone) {
-            System.out.println("yes");
-            System.out.println(student.toString());
             if (studentDao.cancelTeacher(student)) {
                 StudentTeacherDetailPane detailPane = new StudentTeacherDetailPane(primaryStage, student,  null);
                 Scene scene = new Scene(detailPane.getRoot());
